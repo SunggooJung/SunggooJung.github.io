@@ -15,5 +15,5 @@ categories: blog
 
 ### 2. Feature Point Extraction
 
-LiDAR Cloud $$P_{k}
+LiDAR Cloud $$P_{k}$$
 
