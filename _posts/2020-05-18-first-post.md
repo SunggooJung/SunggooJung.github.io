@@ -15,7 +15,7 @@ categories: jekyll update
 
 {$$L$$}: LiDAR Coordinate  
 $$P_{k}$$: Point cloud perceivied during the $$k_{th}$$ sweep  
-X^L_{(k,i)}: Coordinates of a point i, $$ i in P_{k} $$
+$$X^L_{(k,i)}$$: Coordinates of a point i, $$ i in P_{k} $$
 
 
 ### 2. Feature Point Extraction
