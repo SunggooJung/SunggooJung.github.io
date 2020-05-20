@@ -13,9 +13,8 @@ categories: jekyll update
 
 ### 1. Notation
 
-$${L}$$: LiDAR Coordinate
-$$P_{k}$$: Point cloud perceivied during the k_{th} sweep
-
+$${L}$$: LiDAR Coordinate  
+$$P_{k}$$: Point cloud perceivied during the k_{th} sweep  
 
 
 ### 2. Feature Point Extraction
