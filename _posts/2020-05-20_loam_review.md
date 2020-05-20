@@ -3,7 +3,7 @@ title: "LOAM paper Review"
 date: 2020-05-20 15:12:30 +0900
 categories: blog
 ---
-<script type="text/javascript"src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
 </script>
 
 # Lidar Odometry And Mapping (LOAM) 
