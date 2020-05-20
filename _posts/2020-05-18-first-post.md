@@ -3,6 +3,7 @@ title: "under construction"
 date: 2020-05-18 11:35:28 +0900
 categories: jekyll update
 ---
+
 <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
 </script>
 
@@ -12,6 +13,8 @@ categories: jekyll update
 
 ### 1. Notation
 
+$${L}$$: LiDAR Coordinate
+$$P_{k}$$: Point cloud perceivied during the k_{th} sweep
 
 
 
