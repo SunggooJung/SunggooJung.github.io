@@ -1,12 +1,9 @@
 ---
-
 title: "under construction"
 date: 2020-05-18 11:35:28 +0900
 categories: jekyll update
 
 ---
-
-
 ## Lidar Odometry And Mapping (LOAM)$^{[*]}$
 \*Zhang, J., & Singh, S. (2014, July). LOAM: Lidar Odometry and Mapping in Real-time. In _Robotics: Science and Systems_ (Vol. 2, No. 9).
 ### Spinning Hokuyo를 이용한 SLAM을 개발하기 위한 Study
@@ -37,6 +34,40 @@ LOAM은 먼저 Feature Point를 추출하고 이 추출된 특징점들을 통�
 
 $\Large c = \frac{1}{|S|\cdot\Vert X^L_{(k,i)}\Vert}\Vert\sum_{j \in S, i \neq j}(X^L_{(k,i)}-X^L_{(k,j)})\Vert$ 
 
-즉 검사하고자하는 point *i*의 주변 point와의 차이를 합하고 이를 
+즉 검사하고자하는 point *i*의 주변 point와의 차이를 합하고 이를  평균내어 *c*를 계산한다. 이때, $X^L_{(k,i)}$로  c를 나누는 것을 통해 현재위치로 부터 멀리있는 point일 수록 *c*의 값을 작게 하는 효과를 준다. 이로부터 *c*값이 크면 Edge, 작으면 Planar로 정의한다.
+
+이 논문에서는 Feature point가 한곳에 몰리는 것을 방지하기 위해 한 scan line을 균등한 4개의 sub-region 나누고 한 sub-region 최대 2개의 edge point, 4개의 planar point를 추출할 수 있도록 제한 하였다.
+
+이를 구현한 LOAM 저자의 code는 다음과 같다. 
+```c++
+//curvature 계산 공식 중에서
+//point i의 좌우 5개씩 총 10개의 point와의 차이를 계산하고
+//그 크기를 return하는 코드
+for (int i=5; i< cloudSize - 5; i++){
+
+	float diffX = laserCloud->points[i-5].x + laserCloud->points[i-4].x +
+		laserCloud->points[i-3].x + laserCloud->points[i-2].x +	
+		laserCloud->points[i-1].x - 10* laserCloud->points[i].x +
+		laserCloud->points[i+1].x + laserCloud->points[i+2].x +	
+		laserCloud->points[i+3].x + laserCloud->points[i+4].x +	
+		laserCloud->points[i+5].x;
+	
+	float diffY = laserCloud->points[i-5].y + laserCloud->points[i-4].y +
+		laserCloud->points[i-3].y + laserCloud->points[i-2].y +	
+		laserCloud->points[i-1].y - 10* laserCloud->points[i].y +
+		laserCloud->points[i+1].y + laserCloud->points[i+2].y +	
+		laserCloud->points[i+3].y + laserCloud->points[i+4].y +	
+		laserCloud->points[i+5].y;
+	
+	float diffZ = laserCloud->points[i-5].z + laserCloud->points[i-4].z +
+		laserCloud->points[i-3].z + laserCloud->points[i-2].z +	
+		laserCloud->points[i-1].z - 10* laserCloud->points[i].z +
+		laserCloud->points[i+1].z + laserCloud->points[i+2].z +	
+		laserCloud->points[i+3].z + laserCloud->points[i+4].z +	
+		laserCloud->points[i+5].z;
+	
+	laserCloud->points[i].s = diffX*diffX + diffY*diffY + diffZ*diffZ;
+}
+```
 
 
