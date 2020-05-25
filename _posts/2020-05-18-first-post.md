@@ -24,11 +24,11 @@ categories: jekyll update
     
 
 #### 2. Feature Point Extraction
+Laser Odometry 측정 방식은 각 frame의 pointcloud를 이전 frame의 pointcloud와 일치시킴으로써 두 frame 사이의 로봇의 상대 변위를 얻는다. 일반적인 방식은 **ICP (Iterative Closest Point)** 와 같이 Original pointcloud를 사용하여 frame matching을 수행하지만, LOAM은 특징점을 먼저 추출한 후 이 특징점만을 가지고 **feature point matching**을 수행한다.
 
-LOAM은 먼저 Feature Point를 추출하고 이 추출된 특징점들을 통해서 Odometry 추정과 mapping을 한다. 
-이를 위해 2가지 종류의 Feature를 정의하고 있다. 
+Feature point란 특정 특성(certain characteristic)이 있는 점인데 LOAM에서는 아래 수식에 정의된 c값 (curvature, 곡률)에 따라 2가지의 Feature를 정의하고 있다. 
 
-- Edge Point,  Planar Point
+- Edge Point (c값이 큰점),  Planar Point (c값이 작은점)
 
 추출된 특징점이 Edge인지, Planar인지 구분하는 방식은 다음의 $c$(curvature)를 계산함으로서 구할 수 있다.
 
@@ -42,7 +42,8 @@ $\Large c = \frac{1}{|S|\cdot\Vert X^L_{(k,i)}\Vert}\Vert\sum_{j \in S, i \neq j
 ```c++
 //curvature 계산 공식 중에서
 //point i의 좌우 5개씩 총 10개의 point와의 차이를 계산하고
-//그 크기를 return하는 코드
+//그 크기(curvature)를 pointcloud.s 에 저장
+//직선일 경우 0, 곡률이 클 수록 c가 커짐
 for (int i=5; i< cloudSize - 5; i++){
 
 	float diffX = laserCloud->points[i-5].x + laserCloud->points[i-4].x +
@@ -69,5 +70,4 @@ for (int i=5; i< cloudSize - 5; i++){
 	laserCloud->points[i].s = diffX*diffX + diffY*diffY + diffZ*diffZ;
 }
 ```
-
-
+이렇게 curvature를 계산하고 난 후에는 이 특징점을 사용하여 두 frame사이의 상대 변위를 계산하는 것이다. ICP와 같은 기존의 방법에서는 두 프레임 사이의 모든 pointcloud에서의 점을 사용하여 matching을 평가하지만, LOAM은 특징점을 사용하여 보다 압축적인 환경적 특징을 나타낸다.
