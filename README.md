@@ -1,4 +1,5 @@
 # SunggooJung.github.io
+for Xavier NX
 ```
 sudo apt inatll python-pip
 sudo pip install ruamel.yaml
